@@ -1,0 +1,44 @@
+<div class="container mt-5" >
+  <div class="row">
+    <form [formGroup]="dadosForm">
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="text-primary" for="">CEP</label>
+            <input  formControlName="cep" [(ngModel)]="bcep" (blur)="buscaCEP()" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-group">
+            <label class="text-secondary" for="">Logradouro</label>
+            <input formControlName="logradouro" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="text-secondary" for="">Complemento</label>
+            <input formControlName="complemento" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-group">
+            <label class="text-secondary" for="">Bairro</label>
+            <input formControlName="bairro" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-group">
+            <label class="text-secondary" for="">Localidade</label>
+            <input formControlName="localidade" class="form-control" type="text">
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="text-secondary" for="">UF</label>
+            <input formControlName="uf" class="form-control" type="text">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
