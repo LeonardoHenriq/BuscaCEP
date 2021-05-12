@@ -1,1 +1,22 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+.overlay-container{
+  color:#0275d8;
+
+}
+#toast-container > div {
+  padding: 2% 2% 2% 2%;
+  opacity:1;
+  background-color: #cce5ff;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  top:1%;
+  right:1%;
+  position: fixed;
+}
+body{
+  background-color: #f1f1f1;
+}
+input{
+  border-top: 0;
+}

@@ -1,5 +1,9 @@
 import { Component, OnInit , NgModuleRef} from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { Dados } from '../Models/Dados';
 import {DadosService} from '../services/Dados.service';
 
@@ -16,16 +20,20 @@ export class CepComponent implements OnInit {
   public modeSave = 'post';
   public dadosSelecionados : Dados;
   public bcep :string;
+  private unsubscriber = new Subject();
 
 
 
-  constructor(private fb: FormBuilder,private dadosService : DadosService) {
+  constructor(private fb: FormBuilder,
+    private dadosService : DadosService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService) {
     this.criarForm();
    }
 
    criarForm() {
     this.dadosForm = this.fb.group({
-      cep:[''],
+      cep:['',Validators.required],
       logradouro:[''],
       complemento:[''],
       bairro:[''],
@@ -39,8 +47,10 @@ export class CepComponent implements OnInit {
   }
 
   buscaCEP(){
-     this.dadosService.getByCep(this.bcep).
-     subscribe(
+    this.spinner.show();
+     this.dadosService.getByCep(this.bcep)
+     .pipe(takeUntil(this.unsubscriber))
+     .subscribe(
        (dados:Dados[])=>{
        this.dados = dados;
        console.log(dados);
@@ -48,10 +58,17 @@ export class CepComponent implements OnInit {
      },
      (error:any)=>{
        console.log(error);
-     });
+       this.toastr.success('CEP não encontrado!');
+       this.criarForm()
+     },() => this.spinner.hide()
+     );
   }
 
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
+  }
 }
